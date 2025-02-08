@@ -1,11 +1,27 @@
 """
 RealtimeTTS Module
 
-This module handles text-to-speech playback using two pre-created engines and streams:
-  - KokoroEngine (default)
-  - EdgeEngine (if explicitly requested via the --edge flag)
+This module provides text-to-speech playback using two different engines:
+  - KokoroEngine: The default engine for TTS.
+  - EdgeEngine: An alternative engine used when explicitly requested (via the --edge flag)
+                or when the detected language isn't supported by Kokoro.
 
-Both engine instances and their corresponding TTS streams are created at module load.
+Both engines and their audio streams are set up as soon as the module loads, 
+minimizing delays when you start playback. The module also features:
+  - Voice prewarming for faster response times.
+  - Automatic language detection to choose the right voice.
+  - Interactive playback controls:
+      * F8 to pause/resume.
+      * ESC to stop playback.
+  - Optional text processing (like summarization) before speaking.
+
+Key functions:
+  - prewarm_voices: Preloads specified voices for KokoroEngine.
+  - select_voice: Determines the appropriate voice based on engine type and language.
+  - read_text_aloud: Detects language, sets up the voice, and reads the text aloud with controls.
+  - speak_text: A convenience wrapper for read_text_aloud.
+
+Use this module to convert text into speech efficiently with minimal startup latency.
 """
 
 import time
@@ -50,7 +66,7 @@ def prewarm_voices(*voice_keys):
     # Mapping of simple keys to (voice_name, warmup_text)
     prewarm_map = {
         "a": ("af_heart", "Warm up"),
-        "b": ("bf_emma", "Warm up"),
+        #"b": ("bf_emma", "Warm up"),
         "j": ("jf_alpha", "準備中"),
         "z": ("zf_xiaobei", "预热"),
         "zn": ("zf_xiaobei", "预热"),  # alias for Chinese
@@ -79,7 +95,6 @@ edge_default_voice_mapping = {
     'es': 'es-ES-ElviraNeural',
     'fr': 'fr-FR-DeniseNeural',
     'de': 'de-DE-SeraphinaMultilingualNeural',
-    #'de': 'de-DE-AmalaNeural',
     'af': 'af-ZA-AdriNeural',
     'am': 'am-ET-MekdesNeural',
     'ar': 'ar-SA-ZariyahNeural',

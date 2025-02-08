@@ -1,3 +1,15 @@
+"""
+This module extracts the main content from a webpage using several different techniques.
+It attempts to retrieve the core article text by using multiple libraries in sequence:
+- Newspaper3k: For parsing and extracting article content with its built-in heuristics.
+- Trafilatura: For robust text extraction from HTML content.
+- Readability-lxml: To simplify the HTML and extract a clean summary.
+- BeautifulSoup: As a fallback using semantic tags and content density analysis.
+
+The module also cleans the extracted text by removing extra whitespace, newlines,
+and bracketed content, making it suitable for further processing such as text-to-speech (TTS).
+"""
+
 import requests
 from bs4 import BeautifulSoup
 from newspaper import Article
@@ -102,6 +114,3 @@ def get_main_content(url):
     else:
         print("No content extracted.")
         return None
-
-
-# Example usage remains the same

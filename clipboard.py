@@ -1,3 +1,16 @@
+"""
+ClipboardTextRetriever Module
+
+This module defines the ClipboardTextRetriever class, which provides an OS-aware mechanism
+for retrieving the currently selected text from the system clipboard. By simulating the copy
+command via the pyautogui library, it ensures that the correct keyboard shortcut is used
+depending on the operating system: 'ctrl+c' on Windows, 'command+c' on macOS, and 'ctrl+c' on
+Linux or other platforms. The selected text is then fetched using pyperclip, enabling seamless
+automation of text extraction from the clipboard across various environments.
+
+Summary: Retrieves selected text from the clipboard using OS-specific copy commands.
+"""
+
 import sys
 import time
 import pythoncom

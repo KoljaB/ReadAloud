@@ -1,3 +1,12 @@
+"""
+Text-to-Speech LLM Preprocessing Module
+
+This module prepares text for speech synthesis by interfacing with an LLM API to generate either a summarized or speech-optimized version of the input text. It defines default settings for the model and API timeouts, and includes two specialized prompt templates—one for creating natural, flowing summaries and another for optimizing technical content for TTS. The llm_tokens function sends a prompt to the LLM API and streams back tokens as they are generated, while prepare_text_for_speech formats the input text according to the chosen prompt (summary or optimization) before obtaining the streamed response. A sample usage in the main block demonstrates how to convert technical installation instructions into TTS-friendly output.
+
+Summary: Prepares text for speech synthesis by generating a summary or optimized version via a streaming LLM API call.
+"""
+
+
 import os
 import requests
 import json
@@ -176,53 +185,6 @@ Python 3.10.12 # version 3.6 or higher is fine
 Trafilatura package#
 Trafilatura is packaged as a software library available from the package repository PyPI. As such it can notably be installed with a package manager like pip
 or pipenv
-.
-Installing Python packages#
-Straightforward: Official documentation
-Advanced: Pipenv & Virtual Environments
-Basics#
-Here is how to install Trafilatura using pip:
-Open a terminal or command prompt. Please refer to this section for an introduction on command-line usage.
-Type the following command:
-pip install trafilatura
-(pip3
-where applicable)Press Enter: pip will download and install Trafilatura and its dependencies.
-This project is under active development, please make sure you keep it up-to-date to benefit from latest improvements:
-# to make sure you have the latest version
-$ pip install --upgrade trafilatura
-# latest available code base
-$ pip install --force-reinstall -U git+https://github.com/adbar/trafilatura
-Hint
-Installation on MacOS is generally easier with brew.
-Older Python versions#
-In case this does not happen automatically, specify the version number:
-pip install trafilatura==number
-Last version for Python 3.6 and 3.7:
-1.12.2
-Last version for Python 3.5:
-0.9.3
-Last version for Python 3.4:
-0.8.2
-Command-line tool#
-If you installed the library successfully but cannot start the command-line tool, try adding the user-level bin
-directory to your PATH
-environment variable.
-If you are using a Unix derivative (e.g. Linux, OS X), you can achieve this by running the following command: export PATH="$HOME/.local/bin:$PATH"
-.
-For local or user installations where trafilatura cannot be used from the command-line, please refer to the official Python documentation and this page on finding executables from the command-line.
-Additional functionality#
-Compression#
-Trafilatura works best if compression modules in the Python standard library are available. If this is not the case the following modules are impacted: processing of compressed HTML data (less coverage), backup HTML storage (CLI), and UrlStore in the underlying courlan library (lesser capacity).
-Optional modules#
-A few additional libraries can be installed for extended functionality and faster processing: language detection and faster encoding detection: the cchardet
-package may not work on all systems but it is highly recommended.
-$ pip install cchardet # single package only
-$ pip install trafilatura[all] # all additional functionality
-For infos on dependency management of Python packages see this discussion thread.
-Hint
-Everything works even if not all packages are installed (e.g. because installation fails).
-You can also install or update relevant packages separately, trafilatura will detect which ones are present on your system and opt for the best available combination.
-- brotli
 Additional compression algorithm for downloads
 - cchardet / faust-cchardet (Python >= 3.11)
 Faster encoding detection, also possibly more accurate (especially for encodings used in Asia)
