@@ -19,14 +19,16 @@ ReadAloud is a lightweight text-to-speech utility that instantly converts select
 **Prerequisites**: Python 3.8+
 
 ```bash
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-# venv\Scripts\activate.bat  # Windows
-
 # Clone repository
 git clone https://github.com/KoljaB/ReadAloud.git
 cd ReadAloud
+
+# Create and activate virtual environment
+python -m venv venv
+venv\Scripts\activate.bat  # Windows
+# source venv/bin/activate  # Linux/macOS
+
+python.exe -m pip install --upgrade pip
 
 # Install dependencies
 python install.py
