@@ -1,4 +1,3 @@
-```markdown
 # ReadAloud: Real-Time Text & Web Content Reader
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
