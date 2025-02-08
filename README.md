@@ -13,7 +13,7 @@ ReadAloud is a lightweight text-to-speech utility that instantly converts select
 - 🌍 Multi-language detection & voice matching
 - ⚡ Voice prewarming for zero-latency startup
 - 📝 Text post-processing (summarization/optimization)
-- 🖥️ Cross-platform compatibility (Windows/macOS/Linux) - TESTED ONLY UNDER WINDOWS SO FAR!
+- 🖥️ Cross-platform compatibility (Windows/macOS/Linux), tested only on Windows so far
 
 ## Installation
 
