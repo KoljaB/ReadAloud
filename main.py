@@ -84,7 +84,7 @@ def read_website_or_text_aloud(text_or_url):
         return
 
     print(f"Playback started. Press {hotkey_to_use} to pause/resume, and ESC to stop reading.")
-    speak_text(text_to_read, engine_type=engine_type, post_process=post_process)
+    speak_text(text_to_read, engine_type=engine_type, post_process=post_process, hotkey_to_use=hotkey_to_use)
 
 def signal_handler(sig, frame):
     """Handle Ctrl+C gracefully."""

@@ -195,7 +195,7 @@ def select_voice(engine_type, detected_lang):
     else:
         return None
 
-def read_text_aloud(text, engine_type='kokoro', post_process=False):
+def read_text_aloud(text, engine_type='kokoro', post_process=False, hotkey_to_use='pause'):
     """
     Detects the language of the text, selects a suitable voice, and plays the text aloud
     using the pre-instantiated TTS engine and its dedicated stream.
@@ -253,7 +253,7 @@ def read_text_aloud(text, engine_type='kokoro', post_process=False):
 
     is_playing = True
     while stream.is_playing():
-        if keyboard.is_pressed('f8'):
+        if keyboard.is_pressed(hotkey_to_use):
             if is_playing:
                 stream.pause()
                 print("Paused")
@@ -270,8 +270,8 @@ def read_text_aloud(text, engine_type='kokoro', post_process=False):
     print("Finished reading.")
 
 
-def speak_text(text, engine_type='kokoro', post_process=False):
+def speak_text(text, engine_type='kokoro', post_process=False, hotkey_to_use='pause'):
     """
     Convenience function to speak the given text using the selected engine.
     """
-    read_text_aloud(text, engine_type, post_process)
+    read_text_aloud(text, engine_type, post_process, hotkey_to_use=hotkey_to_use)
