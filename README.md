@@ -57,12 +57,14 @@ The installation script will:
 
 4. **Configure API Keys** (Required for URL processing):
 
-Set environment variables:
+Define these environment variables if you plan on summarizing website content. If not, you can skip this step entirely.  
+
+For free option, use the OPENROUTER_API_KEY - you don't need the OPENAI_API_KEY unless you want improved performance.
+
 ```plaintext
 set OPENROUTER_API_KEY=<your_key_here>
 set OPENAI_API_KEY=<your_key_here>
 ```
-
 
 ## Usage
 
