@@ -41,6 +41,7 @@ KOKORO_ENGINE = KokoroEngine(default_lang_code="a", default_voice="af_heart", de
 EDGE_STREAM = TextToAudioStream(EDGE_ENGINE)
 KOKORO_STREAM = TextToAudioStream(KOKORO_ENGINE)
 
+from default_voices import edge_default_voice_mapping, kokoro_default_voice_mapping
 
 def prewarm_voices(*voice_keys):
     """
@@ -88,102 +89,6 @@ def prewarm_voices(*voice_keys):
         TextToAudioStream(KOKORO_ENGINE).feed([text]).play(muted=True)
 
 
-# Voice mappings for EdgeEngine.
-edge_default_voice_mapping = {
-    # Preserving your original defaults
-    'en': 'en-US-EmmaMultilingualNeural',
-    'es': 'es-ES-ElviraNeural',
-    'fr': 'fr-FR-DeniseNeural',
-    'de': 'de-DE-SeraphinaMultilingualNeural',
-    'af': 'af-ZA-AdriNeural',
-    'am': 'am-ET-MekdesNeural',
-    'ar': 'ar-SA-ZariyahNeural',
-    'az': 'az-AZ-BanuNeural',
-    'bg': 'bg-BG-KalinaNeural',
-    'bn': 'bn-BD-NabanitaNeural',
-    'bs': 'bs-BA-VesnaNeural',
-    'ca': 'ca-ES-JoanaNeural',
-    'cs': 'cs-CZ-VlastaNeural',
-    'cy': 'cy-GB-NiaNeural',
-    'da': 'da-DK-ChristelNeural',
-    'el': 'el-GR-AthinaNeural',
-    'et': 'et-EE-AnuNeural',
-    'fa': 'fa-IR-DilaraNeural',
-    'fi': 'fi-FI-NooraNeural',
-    'fil': 'fil-PH-BlessicaNeural',
-    'ga': 'ga-IE-OrlaNeural',
-    'gl': 'gl-ES-SabelaNeural',
-    'gu': 'gu-IN-DhwaniNeural',
-    'he': 'he-IL-HilaNeural',
-    'hi': 'hi-IN-SwaraNeural',
-    'hr': 'hr-HR-GabrijelaNeural',
-    'hu': 'hu-HU-NoemiNeural',
-    'id': 'id-ID-GadisNeural',
-    'is': 'is-IS-GudrunNeural',
-    'it': 'it-IT-ElsaNeural',
-    'iu-Cans': 'iu-Cans-CA-SiqiniqNeural',
-    'iu-Latn': 'iu-Latn-CA-SiqiniqNeural',
-    'ja': 'ja-JP-NanamiNeural',
-    'jv': 'jv-ID-SitiNeural',
-    'ka': 'ka-GE-EkaNeural',
-    'kk': 'kk-KZ-AigulNeural',
-    'km': 'km-KH-SreymomNeural',
-    'kn': 'kn-IN-SapnaNeural',
-    'ko': 'ko-KR-SunHiNeural',
-    'lo': 'lo-LA-KeomanyNeural',
-    'lt': 'lt-LT-OnaNeural',
-    'lv': 'lv-LV-EveritaNeural',
-    'mk': 'mk-MK-MarijaNeural',
-    'ml': 'ml-IN-SobhanaNeural',
-    'mn': 'mn-MN-YesuiNeural',
-    'mr': 'mr-IN-AarohiNeural',
-    'ms': 'ms-MY-YasminNeural',
-    'mt': 'mt-MT-GraceNeural',
-    'my': 'my-MM-NilarNeural',
-    'nb': 'nb-NO-PernilleNeural',
-    'ne': 'ne-NP-HemkalaNeural',
-    'nl': 'nl-NL-FennaNeural',
-    'pl': 'pl-PL-ZofiaNeural',
-    'ps': 'ps-AF-LatifaNeural',
-    'pt': 'pt-BR-FranciscaNeural',
-    'ro': 'ro-RO-AlinaNeural',
-    'ru': 'ru-RU-SvetlanaNeural',
-    'si': 'si-LK-ThiliniNeural',
-    'sk': 'sk-SK-ViktoriaNeural',
-    'sl': 'sl-SI-PetraNeural',
-    'so': 'so-SO-UbaxNeural',
-    'sq': 'sq-AL-AnilaNeural',
-    'sr': 'sr-RS-SophieNeural',
-    'su': 'su-ID-TutiNeural',
-    'sv': 'sv-SE-SofieNeural',
-    'sw': 'sw-KE-ZuriNeural',
-    'ta': 'ta-IN-PallaviNeural',
-    'te': 'te-IN-ShrutiNeural',
-    'th': 'th-TH-PremwadeeNeural',
-    'tr': 'tr-TR-EmelNeural',
-    'uk': 'uk-UA-PolinaNeural',
-    'ur': 'ur-PK-UzmaNeural',
-    'uz': 'uz-UZ-MadinaNeural',
-    'vi': 'vi-VN-HoaiMyNeural',
-    'zh': 'zh-CN-XiaoxiaoNeural',
-    'zu': 'zu-ZA-ThandoNeural',
-}
-
-
-# Updated voice mappings for KokoroEngine.
-# These voices correspond to those used in the kokoro_test.py example.
-kokoro_default_voice_mapping = {
-    'en': 'af_heart',    # American English
-    'ja': 'jf_alpha',    # Japanese
-    'zh': 'zf_xiaobei',  # Mandarin Chinese
-    'es': 'ef_dora',     # Spanish
-    'fr': 'ff_siwis',    # French
-    'hi': 'hf_alpha',    # Hindi
-    'it': 'if_sara',     # Italian
-    'pt': 'pf_dora',     # Brazilian Portuguese
-}
-
-
 def select_voice(engine_type, detected_lang):
     """
     Select a default voice based on the engine type and detected language.
@@ -195,7 +100,7 @@ def select_voice(engine_type, detected_lang):
     else:
         return None
 
-def read_text_aloud(text, engine_type='kokoro', post_process=False, hotkey_to_use='pause'):
+def read_text_aloud(text, engine_type='kokoro', post_process="", hotkey_to_use='pause', provider='openrouter'):
     """
     Detects the language of the text, selects a suitable voice, and plays the text aloud
     using the pre-instantiated TTS engine and its dedicated stream.
@@ -246,7 +151,10 @@ def read_text_aloud(text, engine_type='kokoro', post_process=False, hotkey_to_us
     
     # Optionally preprocess the text (e.g., summarization) if post_process is True.
     if post_process:
-        text = prepare_text_for_speech(text, create_summary=True)
+        if post_process == 'summary':
+            text = prepare_text_for_speech(text, create_summary=True, provider=provider, detected_lang=detected_lang)
+        elif post_process == 'optimization':
+            text = prepare_text_for_speech(text, create_optimization=True, provider=provider, detected_lang=detected_lang)
 
     # Feed the text into the pre-created stream and play asynchronously.
     stream.feed(text).play_async(log_synthesized_text=True, fast_sentence_fragment_allsentences=False)
@@ -270,8 +178,8 @@ def read_text_aloud(text, engine_type='kokoro', post_process=False, hotkey_to_us
     print("Finished reading.")
 
 
-def speak_text(text, engine_type='kokoro', post_process=False, hotkey_to_use='pause'):
+def speak_text(text, engine_type='kokoro', post_process="", hotkey_to_use='pause', provider='openrouter'):
     """
     Convenience function to speak the given text using the selected engine.
     """
-    read_text_aloud(text, engine_type, post_process, hotkey_to_use=hotkey_to_use)
+    read_text_aloud(text, engine_type, post_process, hotkey_to_use=hotkey_to_use, provider=provider)

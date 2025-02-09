@@ -39,6 +39,14 @@ for arg in sys.argv:
 if voices_to_prewarm is None:
     voices_to_prewarm = ["a"]
 
+# Choose the provider based on command-line arguments.
+if "--openai" in sys.argv:
+    llm_provider = "openai"
+elif "--openrouter" in sys.argv:
+    llm_provider = "openrouter"
+else:
+    llm_provider = ""
+
 prewarm_voices(*voices_to_prewarm)
 
 # Determine which TTS engine to use based on the command-line argument.
@@ -50,9 +58,12 @@ else:
     print("Using KokoroEngine as TTS engine.")
 
 # Check if post-processing is enabled.
-enable_post_process = "--summarize" in sys.argv
-if enable_post_process:
-    print("Post-processing enabled for URLs.")
+summary = "--summary" in sys.argv
+if summary:
+    print("Summarizing enabled for URLs.")
+optimize = "--optimize" in sys.argv
+if optimize:
+    print("Optimizing enabled for URLs.")
 
 # Check for a custom hotkey. Default is 'pause'.
 default_hotkey = 'pause'
@@ -65,6 +76,7 @@ hotkey_to_use = custom_hotkey if custom_hotkey else default_hotkey
 
 def read_website_or_text_aloud(text_or_url):
     """Checks if the clipboard has a URL or text, then reads it aloud."""
+    post_process = ""
     if text_or_url.startswith("http://") or text_or_url.startswith("https://"):
         print(f"Reading website: {text_or_url}")
         main_text = get_main_content(text_or_url)
@@ -72,19 +84,26 @@ def read_website_or_text_aloud(text_or_url):
             print("Failed to extract main content from the website.")
             return
         text_to_read = main_text
-        # Only enable post-processing if --post-process is passed
-        post_process = enable_post_process
+        if summary:
+            post_process = "summary"
+        elif optimize:
+            post_process = "optimization"
     else:
         print("Reading selected text from clipboard.")
-        text_to_read = text_or_url
-        post_process = False
+        text_to_read = text_or_url        
 
     if not text_to_read:
         print("No text available to read.")
         return
 
     print(f"Playback started. Press {hotkey_to_use} to pause/resume, and ESC to stop reading.")
-    speak_text(text_to_read, engine_type=engine_type, post_process=post_process, hotkey_to_use=hotkey_to_use)
+    speak_text(
+        text_to_read,
+        engine_type=engine_type,
+        post_process=post_process,
+        hotkey_to_use=hotkey_to_use,
+        provider=llm_provider
+    )
 
 def signal_handler(sig, frame):
     """Handle Ctrl+C gracefully."""

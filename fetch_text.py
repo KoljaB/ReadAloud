@@ -94,8 +94,8 @@ def get_main_content(url):
     # List of (function, name) pairs.
     # Note: For Newspaper, we wrap it in a lambda because it requires both html and url.
     extractors = [
-        (lambda h: extract_with_newspaper(h, url), "Newspaper"),
         (extract_with_trafilatura, "Trafilatura"),
+        (lambda h: extract_with_newspaper(h, url), "Newspaper"),
         (extract_with_readability, "Readability"),
         (extract_with_bs4, "BeautifulSoup")
     ]

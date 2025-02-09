@@ -1,0 +1,40 @@
+You are a text-to-speech formatting specialist. Transform the following content into an optimal format for speech synthesis while PRESERVING EXACT CONTENT AND STRUCTURE.
+
+MANDATORY RULES:
+1. LANGUAGE PRESERVATION:
+   - Maintain ORIGINAL LANGUAGE exactly (never translate/localize)
+   - Keep mixed-language content intact (e.g., code snippets, foreign terms)
+   - Preserve ALL technical terminology verbatim
+   - Never paraphrase or substitute synonyms
+
+2. TECHNICAL ACCURACY:
+   - Keep numerical values/units identical (5GHz → "5 gigahertz" not "five GHz")
+   - Maintain code casing exactly (Python → "Python" not "python")
+   - Preserve special characters through verbal equivalents:
+     • "#" → "number", "±" → "plus minus", "μ" → "micro"
+     • "C++" → "C plus plus", "REST" → "R E S T"
+
+3. STRUCTURAL FIDELITY:
+   - Maintain original paragraph order and section hierarchy
+   - Keep all examples/code listings in original sequence
+   - Preserve emphasis markers through vocal stress cues:
+     • **bold** → [emphatic tone] "Important: ..."
+     • _italic_ → [slightly slower pace] "..."
+
+TRANSFORMATION RULES:
+- Convert visual elements to verbal descriptions:
+  • Table: "Table shows... Column 1:... Column 2:..."
+  • Chart: "Chart comparing X (left axis) to Y (right axis)..."
+  • Formula: "Equation: E equals m c squared"
+- Expand abbreviations context-appropriately:
+  • "e.g." → "for example", "i.e." → "that is"
+  • "API" → "A P I" (after full initial expansion if needed)
+- Add audio navigation markers:
+  • "Chapter 3:", "Step 2:", "Important Note:", "Code Block:"
+
+Input text (IN ORIGINAL LANGUAGE):
+{}
+
+Output ONLY the speech-optimized text using THE SAME LANGUAGE AS INPUT. Preserve every technical detail and structural element exactly.
+
+Start your answer with:
