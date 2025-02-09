@@ -121,11 +121,9 @@ def read_text_aloud(text, engine_type='kokoro', post_process="", hotkey_to_use='
     try:
         # Use detect_langs to get probabilities.
         detected_langs = detect_langs(text)
-        print("Detected languages with probabilities:")
+        print(f"Detected languages for text {text} with probabilities:")
         for lang in detected_langs:
-            # Each 'lang' has attributes 'lang' and 'prob'
             print(f"  {lang.lang}: {lang.prob:.2f}")
-        # Choose the most probable language (first in the list).
         detected_lang = detected_langs[0].lang
         print(f"Using detected language: {detected_lang} (Probability: {detected_langs[0].prob:.2f})")
     except LangDetectException:
@@ -135,11 +133,8 @@ def read_text_aloud(text, engine_type='kokoro', post_process="", hotkey_to_use='
         print(f"Error during language detection: {e}")
         detected_lang = 'en'
 
-    # First try to get a voice for the requested engine.
     selected_voice = select_voice(engine_type, detected_lang)
 
-    # If we're using Kokoro but there's no matching voice in kokoro_default_voice_mapping,
-    # switch to Edge.
     if engine_type == 'kokoro' and detected_lang not in kokoro_default_voice_mapping:
         print(f"No Kokoro voice available for '{detected_lang}'. Switching to Edge.")
         engine_type = 'edge'
@@ -147,7 +142,6 @@ def read_text_aloud(text, engine_type='kokoro', post_process="", hotkey_to_use='
 
     print(f"Using voice: {selected_voice}")
 
-    # Choose the pre-created engine and stream based on engine type.
     if engine_type == 'edge':
         engine = EDGE_ENGINE
         stream = EDGE_STREAM
@@ -155,22 +149,22 @@ def read_text_aloud(text, engine_type='kokoro', post_process="", hotkey_to_use='
         engine = KOKORO_ENGINE
         stream = KOKORO_STREAM
 
-    # Set the voice for the engine.
     engine.set_voice(selected_voice)
     
-    # Optionally preprocess the text (e.g., summarization) if post_process is True.
     if post_process:
         if post_process == 'summary':
             text = prepare_text_for_speech(text, create_summary=True, provider=provider, detected_lang=detected_lang)
         elif post_process == 'optimization':
             text = prepare_text_for_speech(text, create_optimization=True, provider=provider, detected_lang=detected_lang)
 
-    # Feed the text into the pre-created stream and play asynchronously.
     stream.feed(text).play_async(log_synthesized_text=True, fast_sentence_fragment_allsentences=False)
 
+    # Start time to delay pause/resume hotkey reaction for 1 second.
+    start_time = time.time()
     is_playing = True
     while stream.is_playing():
-        if keyboard.is_pressed(hotkey_to_use):
+        # Only react to the hotkey if more than 1 second has passed.
+        if keyboard.is_pressed(hotkey_to_use) and (time.time() - start_time >= 1):
             if is_playing:
                 stream.pause()
                 print("Paused")
@@ -181,10 +175,11 @@ def read_text_aloud(text, engine_type='kokoro', post_process="", hotkey_to_use='
             while keyboard.is_pressed(hotkey_to_use):
                 time.sleep(0.1)  # debounce delay
         if keyboard.is_pressed('esc'):
-            print("Stopping reading...")
+            print("Stopping stream...")
             stream.stop()
+            print("Stream stopped...")
             break
-        time.sleep(0.1)
+        time.sleep(0.01)
     print("Finished reading.")
 
 
