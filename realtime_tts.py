@@ -100,6 +100,15 @@ def select_voice(engine_type, detected_lang):
     else:
         return None
 
+def shutdown():
+    """
+    Clean up the engine and stream instances before exiting the program.
+    """
+    EDGE_STREAM.stop()
+    KOKORO_STREAM.stop()
+    EDGE_ENGINE.shutdown()
+    KOKORO_ENGINE.shutdown()
+
 def read_text_aloud(text, engine_type='kokoro', post_process="", hotkey_to_use='pause', provider='openrouter'):
     """
     Detects the language of the text, selects a suitable voice, and plays the text aloud
@@ -169,7 +178,8 @@ def read_text_aloud(text, engine_type='kokoro', post_process="", hotkey_to_use='
                 stream.resume()
                 print("Resumed")
             is_playing = not is_playing
-            time.sleep(0.3)  # debounce delay
+            while keyboard.is_pressed(hotkey_to_use):
+                time.sleep(0.1)  # debounce delay
         if keyboard.is_pressed('esc'):
             print("Stopping reading...")
             stream.stop()

@@ -26,7 +26,7 @@ import sys
 import time
 import signal
 from fetch_text import get_main_content
-from realtime_tts import speak_text, prewarm_voices
+from realtime_tts import speak_text, prewarm_voices, shutdown
 from clipboard import ClipboardTextRetriever
 import keyboard
 
@@ -108,6 +108,7 @@ def read_website_or_text_aloud(text_or_url):
 def signal_handler(sig, frame):
     """Handle Ctrl+C gracefully."""
     print("\nCtrl+C detected. Exiting...")
+    shutdown()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
