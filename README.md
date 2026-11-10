@@ -130,4 +130,4 @@ If not called with --edge parameter ReadAloud will try to prefer Kokoro synthesi
 
 ## License
 
-MIT License
+[Apache License 2.0](LICENSE); see also [NOTICE](NOTICE). Versions published before 2026-11-10 were made available under the MIT License.
